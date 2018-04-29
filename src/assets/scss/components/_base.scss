@@ -1,0 +1,97 @@
+html, body {
+  height: 100%;
+}
+
+html {
+  font-size: 10px;
+}
+
+@media (min-width: $screen-xs) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: $screen-md) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: $screen-lg) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  font-family: "sans-serif";
+  font-weight: $font-weight-base;
+  font-size: 1rem;
+  margin: 0;
+  color: $text-color;
+  background: $background-color-light;
+  text-align: left;
+}
+
+.h1,
+.h2,
+.h3,
+h1,
+h2,
+h3 {
+  margin-top: 22px;
+  margin-bottom: 11px;
+}
+
+#root {
+  height: 100%;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.vertical-align {
+  font-size: 0;
+
+  &::before {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    content: "";
+  }
+
+  &-middle {
+    display: inline-block;
+    font-size: 1rem;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+}
+
+.ant-layout-header {
+  border: 1px solid $border-color-base;
+}
+
+.active-color {
+  color: $highlight-color;
+}
+
+.warning-color {
+  color: $warning-color;
+}
+
+.form {
+  &-search {
+    .ant-form-item {
+      display: flex;
+    }
+  }
+
+  &-flex-wrapper {
+    .ant-form-item-control-wrapper {
+      flex: 1;
+    }
+  }
+}

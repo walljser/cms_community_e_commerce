@@ -1,0 +1,15 @@
+.page-home {
+  .ant-layout {
+    height: 100%;
+
+    &-header {
+      padding: 0;
+      background: #fff;
+    }
+
+    &-content {
+      margin: 1.875rem;
+      background: #fff;
+    }
+  }
+}

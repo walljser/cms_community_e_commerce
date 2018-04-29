@@ -1,0 +1,14 @@
+export const ADMIN_API = 'http://119.29.161.228:8080/cloudcommodity/admin/v1';
+export const USER_API = 'http://119.29.161.228:8080/cloudcommodity/user/v1';
+// export const ADMIN_API = 'http://192.168.191.1:8080/admin/v1';
+// export const USER_API = 'http://192.168.191.1:8080/user/v1';
+export const WEBSITE_NAME = '云生活超市';
+export const AUTHOR = 'gre_yu@163.com';
+export const GITHUB = 'https://github.com/greyu';
+export const USERNAME = 'username';
+export const PASSWORD = 'password';
+export const TOKEN = 'token';
+export const ADMIN_ID = 'adminId';
+export const AUTHORIZATION = 'authorization';
+export const DEFAULT_PAGE = 1;
+export const DEFAULT_ROWS = 10;

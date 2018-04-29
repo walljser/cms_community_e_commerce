@@ -1,0 +1,87 @@
+[class*=animation-] {
+  animation-duration: .8s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.animation {
+  &-duration {
+    &-1 {
+      animation-duration: 1s;
+    }
+
+    &-2 {
+      animation-duration: 2s;
+    }
+
+    &-3 {
+      animation-duration: 3s;
+    }
+  }
+
+  &-slide {
+    &-top {
+      animation-name: slide-top;
+    }
+
+    &-bottom {
+      animation-name: slide-bottom;
+    }
+
+    &-left {
+      animation-name: slide-left;
+    }
+
+    &-right {
+      animation-name: slide-left;
+    }
+  }
+}
+
+@keyframes slide-top {
+  0% {
+      opacity: 0;
+      transform: translate3d(0,-100%,0)
+  }
+
+  100% {
+      opacity: 1;
+      transform: translate3d(0,0,0)
+  }
+}
+
+@keyframes slide-bottom {
+  0% {
+      opacity: 0;
+      transform: translate3d(0,100%,0)
+  }
+
+  100% {
+      opacity: 1;
+      transform: translate3d(0,0,0)
+  }
+}
+
+@keyframes slide-left {
+  0% {
+      opacity: 0;
+      transform: translate3d(-100%,0,0)
+  }
+
+  100% {
+      opacity: 1;
+      transform: translate3d(0,0,0)
+  }
+}
+
+@keyframes slide-right {
+  0% {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}

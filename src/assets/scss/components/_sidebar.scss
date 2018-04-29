@@ -1,0 +1,48 @@
+.sidebar {
+  &-logo {
+    height: 64px;
+    line-height: 64px;
+    // background: $primary-color;
+    margin-bottom: 30px;
+    padding-left: 1.5rem;
+
+    &-content {
+      display: inline-block;
+      color: #fff;
+      font-size: 1.25rem;
+      margin: 0;
+      transition: 500ms ease-out;
+    }
+
+    img {
+      height: 2rem;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.ant-layout-sider-collapsed {
+  .sidebar-logo-content {
+    display: none;
+  }
+}
+
+.ant{
+  &-layout-sider {
+    background-color: $dark-color;
+    // width: 260px !important;
+    max-width: 260px !important;
+    // min-width: 260px !important;
+  }
+
+  &-menu-dark {
+    background-color: transparent;
+  }
+}
+
+.ant-menu.ant-menu-dark {
+  .ant-menu-item-selected {
+    background: rgba(0,0,0,.06);
+    color: #fff;
+  }
+}

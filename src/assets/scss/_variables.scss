@@ -1,0 +1,58 @@
+//
+//  Variables
+//
+
+$prefix                     : "yu";
+
+// color
+$primary-color              : #1890ff;
+$success-color              : #52c41a;
+$error-color                : #f5222d;
+$highlight-color            : #f5222d;
+$warning-color              : #faad14;
+$white-color                : #fff;
+$black-color                : #000;
+$background-color-base      : #f1f4f5;
+$background-color-light     : $white-color;
+$disabled-color             : fade-in(#000, .25);
+$disabled-bg                : $background-color-base;
+$disabled-color-dark        : fade-in(#fff, .35);
+$dark-color                 : #263238;
+$dark-color-light           : #21292e;
+
+
+// font
+$font-size-base             : 14px;
+$font-size-lg               : $font-size-base + 2px;
+$font-size-sm               : 12px;
+// font-weight
+$font-weight-base           : 300;
+// font-color
+$text-color                 : #76838f;
+$text-color-dark            : #333;
+
+// line
+$line-height-base           : 1.5;
+
+// border
+$border-width-base          : 1px;
+$border-style-base          : solid;
+// border-radius
+$border-radius-base         : 4px;
+$border-radius-sm           : 2px;
+// border-color
+$border-color-base          : #e4eaec;
+
+// link
+$link-color                 : $primary-color;
+$link-color-hover           : #40a9ff;
+$link-color-active          : #096dd9;
+$link-decoration            : none;
+$link-hover-decoration      : none;
+
+$screen-xs                  : 576px;
+$screen-sm                  : 768px;
+$screen-md                  : 992px;
+$screen-lg                  : 1280px;
+
+$box-shadow-base         : 0 2px 8px rgba(0, 0, 0, 0.09);

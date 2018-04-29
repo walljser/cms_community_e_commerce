@@ -1,0 +1,32 @@
+.navbar {
+  // display: flex;
+
+  &-right {
+    float: right;
+  }
+}
+
+.nav {
+  display: inline-block;
+  list-style: none;
+  margin: 0;
+  padding-left: 0.5rem;
+
+  &:last-child {
+    margin-right: .5rem;
+  }
+
+  &-item {
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    line-height: 64px;
+    font-size: 1.125rem;
+    cursor: pointer;
+    padding: 0;
+
+    .anticon {
+      padding: 0 24px;
+    }
+  }
+}

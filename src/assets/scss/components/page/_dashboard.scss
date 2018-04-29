@@ -1,0 +1,33 @@
+
+.dashboard {
+  &-metabox {
+    &-title {
+      display: flex;
+      color: #76838f;
+      margin-bottom: 5px;
+
+      .anticon {
+        margin-left: auto;
+        align-self: center;
+      }
+    }
+
+    &-info {
+      font-size: 30px;
+      color: #000;
+      font-weight: 400;
+    }
+
+    &-content {
+
+    }
+
+    &-desc {
+      border-top: 1px solid #e4eaec;
+      margin-top: 10px;
+      padding-top: 10px;
+      font-size: 16px;
+      color: #222;
+    }
+  }
+}
