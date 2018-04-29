@@ -11,9 +11,9 @@ React后台项目：react + react-router4 + redux + antd + axios + sass
 6. sass
 7. es6 + babel ( 配了babel-plugin-transform-decorator-legacy 装饰器)
 
-使用了create-react-app搭建项目。 服务器端我是用springboot+mybatis编写的，仓库地址是：[服务器端代码](https://github.com/greyu/backend_cloud_commodity)
+使用了create-react-app搭建项目。 服务器端我是用springboot+mybatis编写的，仓库地址是：[服务器端代码](https://github.com/dekvos123/backend_cloud_commodity)
 
-作者想说：其实是想用React-native做一个超市的app，取名云生活超市（名字很难听各位轻吐槽），既然有app，那就得有一个后台，就是这个了。附上app端仓库地址：[云生活app](https://github.com/greyu/community_e_commerce)
+作者想说：其实是想用React-native做一个超市的app，取名云生活超市（名字很难听各位轻吐槽），既然有app，那就得有一个后台，就是这个了。附上app端仓库地址：[云生活app](https://github.com/dekvos123/community_e_commerce)
 
 ### 环境
 * 我自己使用ubuntu16.04，建议在linux或者mac os系统下运行
@@ -28,7 +28,7 @@ yarn config set disturl https://npm.taobao.org/dist --global
 ```
 2. ***克隆项目并安装环境***
 ```bash
-git clone https://github.com/greyu/cms_community_e_commerce.git
+git clone https://github.com/dekvos123/cms_community_e_commerce.git
 cd cms_community_e_commerce
 yarn
 ```
