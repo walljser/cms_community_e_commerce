@@ -103,6 +103,7 @@ export default class SelectorHeader extends React.Component {
                 })(
                   <CategorySelector
                     allItem
+                    level="second"
                   />
                 )}
               </FormItem>

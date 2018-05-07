@@ -198,7 +198,7 @@ export default class AddGoodMOdal extends React.Component {
             )}
           </FormItem>
           <FormItem label="商品类别：">
-            {getFieldDecorator('categoryId', {
+            {getFieldDecorator('categorySecondId', {
               rules: [{
                 required: true,
                 message: '请选择商品类别'

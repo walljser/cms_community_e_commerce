@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  fetchCategories
+  fetchCategories,
+  fetchAllCategorySecond
 } from '../actions';
 import {
   Select,
@@ -13,19 +14,23 @@ const Option = Select.Option
 
 @connect(
   state => ({
-    isFetching: state.categories.second.isFetching,
-    categories: state.categories.second.categories
+    firstIsFetching: state.categories.first.isFetching,
+    categoryFirst: state.categories.first.categories,
+    secondIsFetching: state.categories.second.isFetching,
+    categorySecond: state.categories.second.categories
   }),
   dispatch => ({
-    getCategories: (adminId, token) => dispatch(fetchCategories(adminId, token))
+    fetchCategoryFirst: () => dispatch(fetchCategories()),
+    fetchCategorySecond: () => dispatch(fetchAllCategorySecond())
   })
 )
 export default class CategorySelector extends React.Component {
   static defaultProps = {
     isFetching: PropTypes.bool.isRequired,
-    categories: PropTypes.array.isRequired,
-    getCategories: PropTypes.func.isRequired,
-    allItem: PropTypes.bool.isRequired
+    categoryFirst: PropTypes.array.isRequired,
+    categorySecond: PropTypes.array.isRequired,
+    allItem: PropTypes.bool.isRequired,
+    level: PropTypes.oneOf(['first', 'second'])
   }
 
   constructor(props) {
@@ -37,7 +42,21 @@ export default class CategorySelector extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getCategories()
+    this.fetchCategories()
+  }
+
+  fetchCategories = () => {
+    const {
+      level
+    } = this.props
+
+    if (level === 'first') {
+      this.props.fetchCategoryFirst()
+    }
+
+    if (level === 'second') {
+      this.props.fetchCategorySecond()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,13 +91,43 @@ export default class CategorySelector extends React.Component {
     }
   }
 
+  renderCategory = () => {
+    const {
+      level,
+      categoryFirst,
+      categorySecond
+    } = this.props
+
+    if (level === 'first') {
+      return (
+        categoryFirst.map(item => (
+          <Option value={item.categoryFirstId} key={item.categoryFirstId}>
+            {item.categoryName}
+          </Option>
+        ))
+      )
+    } else {
+      return (
+        categorySecond.map(item => (
+          <Option value={item.categorySecondId} key={item.categorySecondId}>
+            {item.categoryName}
+          </Option>
+        ))
+      )
+    }
+  }
+
   render() {
     const {
-      categories,
+      categoryFirst,
+      categorySecond,
       isFetching,
+      level,
       allItem
     } = this.props
     const value = this.state.value
+
+    const categories = level === 'first' ? categoryFirst : categorySecond
 
     if (categories.length === 0) {
       return (
@@ -102,17 +151,13 @@ export default class CategorySelector extends React.Component {
         >
           {
             allItem ? (
-              <Option value="all">
+              <Option value="all" key={-1}>
                 全部
               </Option>
             ) : ""
           }
           {
-            categories.map(item => (
-              <Option value={item.categoryId} key={item.categoryId}>
-                {item.categoryName}
-              </Option>
-            ))
+            this.renderCategory()
           }
         </Select>
       )

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import categoryFirstService from '@/services/categoryFirstService';
+import categorySecondService from '@/services/categorySecondService';
 import {
   message,
   Modal,
@@ -9,7 +9,7 @@ import {
 } from 'antd';
 import {
   authError,
-  fetchCategories
+  fetchAllCategorySecond
 } from '@/actions';
 
 @connect(
@@ -19,7 +19,7 @@ import {
   }),
   dispatch => ({
     authError: (errorMessage) => dispatch(authError(errorMessage)),
-    fetchCategories: () => dispatch(fetchCategories())
+    fetchCategories: () => dispatch(fetchAllCategorySecond())
   })
 )
 export default class DeleteCategoryModal extends React.Component {
@@ -38,15 +38,15 @@ export default class DeleteCategoryModal extends React.Component {
       token,
       value
     } = this.props
-    const categoryFirstId = value.categoryFirstId
+    const categorySecondId = value.categorySecondId
 
     try {
-      await categoryFirstService.remove(adminId, token, categoryFirstId)
+      await categorySecondService.remove(adminId, token, categorySecondId)
       message.success("删除成功")
       this.props.fetchCategories()
       this.props.handleSubmit()
     } catch (err) {
-      if (err.message === undefined) {
+      if (err.response === undefined) {
         const errorMessage = '服务器出错啦，请耐心等待，麻烦很耐心的等待一年，谢谢'
         this.props.authError(errorMessage)
       }

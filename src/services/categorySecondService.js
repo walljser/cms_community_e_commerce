@@ -12,12 +12,18 @@ const DEFAULT_POST = {
   categoryName: '',
   imageFile: null
 }
+const DEFAULT_PATCH = {
+  categorySecondId: 0,
+  categoryFirstId: 0,
+  categoryName: '',
+  imageFile: null
+}
 
 const all = async function() {
   return await axios.get(USER_URL)
 }
 
-const post = async function(adminId, token, categorySecond) {
+const create = async function(adminId, token, categorySecond) {
   const postCategory = Object.assign({}, DEFAULT_POST, categorySecond)
   return rest.post(adminId, token)(
     ADMIN_URL,
@@ -25,7 +31,24 @@ const post = async function(adminId, token, categorySecond) {
   )
 }
 
+const remove = async function(adminId, token, categorySecondId) {
+  return rest.remove(adminId, token)(
+    `${ADMIN_URL}/${categorySecondId}`
+  )
+}
+
+const update = async function(adminId, token, categorySecond) {
+  const patchData = Object.assign({}, DEFAULT_PATCH, categorySecond)
+  console.log(patchData)
+  return rest.post(adminId, token)(
+    `${ADMIN_URL}/${patchData.categorySecondId}`,
+    patchData
+  )
+}
+
 export default {
   all,
-  post
+  create,
+  remove,
+  update
 }

@@ -90,7 +90,7 @@ export default class UpdateCategoryModal extends React.Component {
     } = this.props
 
     const { getFieldDecorator } = form
-    const categoryId = value ? value.categoryId : ''
+    const categoryFirstId = value ? value.categoryFirstId : ''
     const categoryName = value ? value.categoryName : ''
 
     return (
@@ -104,8 +104,8 @@ export default class UpdateCategoryModal extends React.Component {
       >
         <Form layout="vertical">
           <FormItem label="id">
-            {getFieldDecorator('categoryId', {
-              initialValue: categoryId
+            {getFieldDecorator('categoryFirstId', {
+              initialValue: categoryFirstId
             })(
               <Input type="text" disabled />
             )}

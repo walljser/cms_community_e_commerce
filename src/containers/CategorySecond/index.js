@@ -11,78 +11,9 @@ import {
   Form
 } from 'antd';
 import { fetchAllCategorySecond } from '../../actions';
-
-const advs = [{
-  id: 10000000,
-  categoryName: '精品水果',
-  categorySecondName: '应季热销',
-  image: 'http://119.29.161.228/cloudimg/categories/yingjirexiao.png'
-}, {
-  id: 10000001,
-  categoryName: '精品水果',
-  categorySecondName: '瓜类',
-  image: 'http://119.29.161.228/cloudimg/categories/gualei.png'
-}, {
-  id: 10000002,
-  categoryName: '精品水果',
-  categorySecondName: '苹果梨',
-  image: 'http://119.29.161.228/cloudimg/categories/pingguoli.png'
-}, {
-  id: 10000003,
-  categoryName: '精品水果',
-  categorySecondName: '小果类',
-  image: 'http://119.29.161.228/cloudimg/categories/xiaoguolei.png'
-}, {
-  id: 10000004,
-  categoryName: '优选蔬菜',
-  categorySecondName: '豆类',
-  image: 'http://119.29.161.228/cloudimg/categories/doulei.png'
-}, {
-  id: 10000005,
-  categoryName: '优选蔬菜',
-  categorySecondName: '调味类',
-  image: 'http://119.29.161.228/cloudimg/categories/tiaoweilei.png'
-}, {
-  id: 10000006,
-  categoryName: '优选蔬菜',
-  categorySecondName: '叶菜类',
-  image: 'http://119.29.161.228/cloudimg/categories/yecailei.png'
-}, {
-  id: 10000007,
-  categoryName: '禽鱼肉类',
-  categorySecondName: '鸡鸭禽肉',
-  image: 'http://119.29.161.228/cloudimg/categories/jiyaqinrou.png'
-}, {
-  id: 10000008,
-  categoryName: '禽鱼肉类',
-  categorySecondName: '牛肉牛排',
-  image: 'http://119.29.161.228/cloudimg/categories/niurouniupai.png'
-}, {
-  id: 10000009,
-  categoryName: '禽鱼肉类',
-  categorySecondName: '软体类',
-  image: 'http://119.29.161.228/cloudimg/categories/ruantilei.png'
-}, {
-  id: 10000010,
-  categoryName: '禽鱼肉类',
-  categorySecondName: '虾类',
-  image: 'http://119.29.161.228/cloudimg/categories/xialei.png'
-}, {
-  id: 10000011,
-  categoryName: '禽鱼肉类',
-  categorySecondName: '蟹类贝类',
-  image: 'http://119.29.161.228/cloudimg/categories/xieleibeilei.png'
-}, {
-  id: 10000012,
-  categoryName: '禽鱼肉类',
-  categorySecondName: '鱼类',
-  image: 'http://119.29.161.228/cloudimg/categories/yulei.png'
-}, {
-  id: 10000013,
-  categoryName: '禽鱼肉类',
-  categorySecondName: '猪肉类',
-  image: 'http://119.29.161.228/cloudimg/categories/zhuroulei.png'
-}]
+import AddCategoryModal from './AddCategoryModal';
+import UpdateCategoryModal from './UpdateCategoryModal';
+import DeleteCategoryModal from './DeleteCategoryModal';
 
 @connect(
   state => ({
@@ -96,11 +27,62 @@ const advs = [{
 export default class Adv extends React.Component {
   state = {
     filteredInfo: null,
-    sortedInfo: null
+    sortedInfo: null,
+    addFormVisible: false,
+    updateFormVisible: false,
+    updateFormValue: {},
+    deleteCategoryValue: {},
+    deleteModalVisible: false
   }
 
   componentDidMount() {
     this.props.loadCategories()
+  }
+
+  handleAddFormOpen = () => {
+    this.setState({
+      addFormVisible: true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      addFormVisible: false,
+      updateFormVisible: false,
+      deleteModalVisible: false
+    })
+  }
+
+  handleAddFormSuccess = () => {
+    this.setState({
+      addFormVisible: false
+    })
+  }
+
+  handleUpdateFormOpen = (category) => {
+    this.setState({
+      updateFormValue: category,
+      updateFormVisible: true
+    })
+  }
+
+  handleUpdateSuccess = () => {
+    this.setState({
+      updateFormVisible: false
+    })
+  }
+
+  handleDeleteOpen = (category) => {
+    this.setState({
+      deleteCategoryValue: category,
+      deleteModalVisible: true
+    })
+  }
+
+  handelDeleteSuccess = () => {
+    this.setState({
+      deleteModalVisible: false
+    })
   }
 
   handleChange = (pagination, filters, sorter) => {
@@ -111,6 +93,7 @@ export default class Adv extends React.Component {
   }
 
   render() {
+    const { categorySeconds } = this.props
     let {
       filteredInfo,
       sortedInfo
@@ -121,18 +104,18 @@ export default class Adv extends React.Component {
 
     const columns =[{
       title: 'id',
-      dataIndex: 'id',
-      key: 'id',
-      sorter: (a, b) => a.id- b.id,
-      sortOrder: sortedInfo.columnKey === 'id' && sortedInfo.order
+      dataIndex: 'categorySecondId',
+      key: 'categorySecondId',
+      sorter: (a, b) => a.categorySecondId- b.categorySecondId,
+      sortOrder: sortedInfo.columnKey === 'categorySecondId' && sortedInfo.order
     }, {
       title: '所属一级名称',
-      dataIndex: 'categoryName',
-      key: 'categoryName'
+      dataIndex: 'categoryFirstName',
+      key: 'categoryFirstName'
     }, {
       title: '分类名称',
-      dataIndex: 'categorySecondName',
-      key: 'categorySecondName'
+      dataIndex: 'categoryName',
+      key: 'categoryName'
     }, {
       title: '图片',
       dataIndex: 'image',
@@ -145,11 +128,17 @@ export default class Adv extends React.Component {
       key: 'action',
       render: (text, record) => (
         <span>
-          <Button type="primary">
+          <Button
+            type="primary"
+            onClick={() => this.handleUpdateFormOpen(record)}
+          >
             修改
           </Button>
           <Divider type="vertical" />
-          <Button type="danger">
+          <Button
+            type="danger"
+            onClick={() => this.handleDeleteOpen(record)}
+          >
             删除
           </Button>
         </span>
@@ -176,11 +165,28 @@ export default class Adv extends React.Component {
           </Panel.Header>
           <Panel.Body type="light">
             <Table
-              rowKey={record => record.id}
-              dataSource={advs}
+              rowKey={record => record.categorySecondId}
+              dataSource={categorySeconds}
               columns={columns}
               bordered
               onChange={this.handleChange}
+            />
+            <AddCategoryModal
+              visible={this.state.addFormVisible}
+              handleSubmit={this.handleAddFormSuccess}
+              handleCancel={this.handleClose}
+            />
+            <UpdateCategoryModal
+              value={this.state.updateFormValue}
+              visible={this.state.updateFormVisible}
+              handleSubmit={this.handleUpdateSuccess}
+              handleCancel={this.handleClose}
+            />
+            <DeleteCategoryModal
+              value={this.state.deleteCategoryValue}
+              visible={this.state.deleteModalVisible}
+              handleSubmit={this.handelDeleteSuccess}
+              handleCancel={this.handleClose}
             />
           </Panel.Body>
         </Panel>
