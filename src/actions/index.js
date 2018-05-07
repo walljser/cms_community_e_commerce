@@ -13,7 +13,10 @@ import {
 } from './goodAction';
 import {
   fetchCategories
-} from './categoryAction';
+} from './categoryFirstAction';
+import {
+  fetchAllCategorySecond
+} from './categorySecondAction'
 import {
   getAllOrders
 } from './orderAction';
@@ -78,6 +81,7 @@ export {
   fetchGoods,
   receiveGoods,
   fetchCategories,
+  fetchAllCategorySecond,
   getAllOrders,
   fetchAdminList
 }

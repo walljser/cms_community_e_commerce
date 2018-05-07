@@ -1,7 +1,7 @@
 import {
-  LOAD_CATEGORIES,
-  FINISH_CATEGORIES,
-  CREATE_CATEGORY
+  LOAD_CATEGORIES_FIRST,
+  FINISH_CATEGORIES_FIRST,
+  CREATE_CATEGORY_FIRST
 } from './types';
 import {
   service,
@@ -9,24 +9,24 @@ import {
   serviceFailure,
   authError
 } from './index';
-import categoryService from '../services/categoryService';
+import categoryFirstService from '../services/categoryFirstService';
 
 function loadCategories() {
   return {
-    type: LOAD_CATEGORIES
+    type: LOAD_CATEGORIES_FIRST
   }
 }
 
 function finishCategories(categories) {
   return {
-    type: FINISH_CATEGORIES,
+    type: FINISH_CATEGORIES_FIRST,
     payload: categories
   }
 }
 
 function createCategory() {
   return {
-    type: CREATE_CATEGORY
+    type: CREATE_CATEGORY_FIRST
   }
 }
 
@@ -34,7 +34,7 @@ function fetchCategories() {
   return async (dispatch) => {
     try {
       dispatch(loadCategories())
-      const res = await categoryService.all()
+      const res = await categoryFirstService.all()
       return dispatch(finishCategories(res.data.data))
     } catch (err) {
       // if (err.response === undefined) {
