@@ -39,7 +39,6 @@ const remove = async function(adminId, token, categorySecondId) {
 
 const update = async function(adminId, token, categorySecond) {
   const patchData = Object.assign({}, DEFAULT_PATCH, categorySecond)
-  console.log(patchData)
   return rest.post(adminId, token)(
     `${ADMIN_URL}/${patchData.categorySecondId}`,
     patchData

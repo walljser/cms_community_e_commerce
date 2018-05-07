@@ -58,12 +58,6 @@ export default class UpdateCategoryModal extends React.Component {
         values.categoryName,
         values.image.fileList[0].originFileObj
       )
-      // this.updateCategory({
-      //   categorySecondId: values.categorySecondId,
-      //   categoryFirstId: values.categoryFirstId,
-      //   categoryName: values.categoryName,
-      //   imageFile: values.image.fileList[0].originFileObj
-      // })
     })
   }
 

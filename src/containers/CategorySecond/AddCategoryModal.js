@@ -49,7 +49,6 @@ export default class AddCategoryModal extends React.Component {
     e.preventDefault()
 
     this.props.form.validateFields((err, values) => {
-      console.log(values)
       if (err) {
         return ;
       }
