@@ -3,12 +3,10 @@ import {
   USER_API
 } from '../constants';
 import axios from 'axios';
-import
-  rest
- from '../utils/rest';
+import rest from '../utils/rest';
 
-const admin_category = `${ADMIN_API}/categories`;
-const user_category = `${USER_API}/categories`;
+const admin_category = `${ADMIN_API}/category/first`;
+const user_category = `${USER_API}/category/first`;
 
 const all = async (page, rows) => {
   if (page && rows ) {
