@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import categoryService from '@/services/categoryService';
+import categoryFirstService from '@/services/categoryFirstService';
 import {
   message,
   Modal,
@@ -41,7 +41,7 @@ export default class DeleteCategoryModal extends React.Component {
     const categoryId = value.categoryId
 
     try {
-      await categoryService.remove(adminId, token, categoryId)
+      await categoryFirstService.remove(adminId, token, categoryId)
       message.success("删除成功")
       this.props.fetchCategories()
       this.props.handleSubmit()

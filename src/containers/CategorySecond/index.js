@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Panel from '@/components/Panel';
 import {
   Button,
@@ -9,6 +10,7 @@ import {
   Table,
   Form
 } from 'antd';
+import { fetchAllCategorySecond } from '../../actions';
 
 const advs = [{
   id: 10000000,
@@ -82,10 +84,23 @@ const advs = [{
   image: 'http://119.29.161.228/cloudimg/categories/zhuroulei.png'
 }]
 
+@connect(
+  state => ({
+    categorySeconds: state.categories.second.categories,
+    isFetching: state.categories.second.isFetching
+  }),
+  dispatch => ({
+    loadCategories: () => dispatch(fetchAllCategorySecond())
+  })
+)
 export default class Adv extends React.Component {
   state = {
     filteredInfo: null,
     sortedInfo: null
+  }
+
+  componentDidMount() {
+    this.props.loadCategories()
   }
 
   handleChange = (pagination, filters, sorter) => {

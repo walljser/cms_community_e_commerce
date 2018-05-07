@@ -12,7 +12,7 @@ import {
   authError,
   fetchCategories
 } from '@/actions/index';
-import categoryService from '@/services/categoryService';
+import categoryFirstService from '@/services/categoryFirstService';
 
 const FormItem = Form.Item
 
@@ -55,7 +55,7 @@ export default class UpdateCategoryModal extends React.Component {
     } = this.props
 
     try {
-      const res = await categoryService.update(
+      const res = await categoryFirstService.update(
         adminId,
         token,
         category

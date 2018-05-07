@@ -13,8 +13,8 @@ const Option = Select.Option
 
 @connect(
   state => ({
-    isFetching: state.categories.isFetching,
-    categories: state.categories.categories
+    isFetching: state.categories.second.isFetching,
+    categories: state.categories.second.categories
   }),
   dispatch => ({
     getCategories: (adminId, token) => dispatch(fetchCategories(adminId, token))

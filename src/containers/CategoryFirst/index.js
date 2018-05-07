@@ -18,8 +18,8 @@ import {
   state => ({
     adminId: state.auth.admin.adminId,
     token: state.auth.admin.token,
-    categories: state.categories.categories,
-    isFetching: state.categories.isFetching
+    categories: state.categories.first.categories,
+    isFetching: state.categories.first.isFetching
   }),
   dispatch => ({
     getCategories: () => dispatch(fetchCategories())
@@ -107,8 +107,8 @@ export default class CategoryFirst extends React.Component {
 
     const columns = [{
       title: 'id',
-      dataIndex: 'categoryId',
-      key: 'categoryId'
+      dataIndex: 'categoryFirstId',
+      key: 'categoryFirstId'
     }, {
       title: '分类名称',
       dataIndex: 'categoryName',
@@ -155,7 +155,7 @@ export default class CategoryFirst extends React.Component {
           </Panel.Header>
           <Panel.Body type="light">
             <Table
-              rowKey={record => record.categoryId}
+              rowKey={record => record.categoryFirstId}
               dataSource={categories}
               columns={columns}
               loading={isFetching}
