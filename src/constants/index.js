@@ -1,7 +1,7 @@
-export const ADMIN_API = 'http://119.29.161.228:8080/cloudcommodity/admin/v1';
-export const USER_API = 'http://119.29.161.228:8080/cloudcommodity/user/v1';
-// export const ADMIN_API = 'http://192.168.191.1:8080/admin/v1';
-// export const USER_API = 'http://192.168.191.1:8080/user/v1';
+// export const ADMIN_API = 'http://119.29.161.228:8080/cloudcommodity/admin/v1';
+// export const USER_API = 'http://119.29.161.228:8080/cloudcommodity/user/v1';
+export const ADMIN_API = 'http://192.168.191.1:8080/admin/v1';
+export const USER_API = 'http://192.168.191.1:8080/user/v1';
 export const WEBSITE_NAME = '云生活超市';
 export const AUTHOR = 'gre_yu@163.com';
 export const GITHUB = 'https://github.com/dekvos123';

@@ -83,8 +83,6 @@ export default class Orders extends React.Component {
     filteredInfo = filteredInfo || {}
     sortedInfo = sortedInfo || {}
 
-    console.log(orders)
-
     const columns =[{
       title: 'id',
       dataIndex: 'orderId',
@@ -137,6 +135,16 @@ export default class Orders extends React.Component {
         )
       }
       // key: 'createTime',
+    }, {
+      title: '操作',
+      key: 'action',
+      render: (text, record) => (
+        <span>
+          <Button type="primary">
+            操作
+          </Button>
+        </span>
+      )
     }]
 
     return (
