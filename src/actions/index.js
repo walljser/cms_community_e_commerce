@@ -18,7 +18,9 @@ import {
   fetchAllCategorySecond
 } from './categorySecondAction'
 import {
-  getAllOrders
+  getAllOrders,
+  statistics as statisticsOrder,
+  updateOrderStatus
 } from './orderAction';
 import {
   fetchAdminList
@@ -83,5 +85,7 @@ export {
   fetchCategories,
   fetchAllCategorySecond,
   getAllOrders,
+  statisticsOrder,
+  updateOrderStatus,
   fetchAdminList
 }

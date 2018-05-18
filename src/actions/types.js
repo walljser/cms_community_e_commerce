@@ -27,6 +27,9 @@ export const SERVICE_END = 'SERVICE_END';
 // order
 export const LOAD_ORDERS = 'LOAD_ORDERS';
 export const RECEIVE_ORDERS = 'RECEIVE_ORDERS';
+export const STATISTICS_ORDER = 'STATISTICS_ORDER'; // 订单统计
+export const ORDER_SERVICE_START = 'ORDER_SERVICE_START';
+export const ORDER_SERVICE_END = 'ORDER_SERVICE_END';
 // admin
 export const LOAD_ADMIN_INFO = 'LOAD_ADMIN_INFO';
 export const LOAD_ADMIN_INFO_SUCCESS = 'LOAD_ADMIN_INFO_SUCCESS';

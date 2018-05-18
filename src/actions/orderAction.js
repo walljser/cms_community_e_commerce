@@ -1,6 +1,9 @@
 import {
   LOAD_ORDERS,
-  RECEIVE_ORDERS
+  RECEIVE_ORDERS,
+  STATISTICS_ORDER,
+  ORDER_SERVICE_START,
+  ORDER_SERVICE_END
 } from './types';
 import {
   authError
@@ -20,12 +23,33 @@ function receiveOrders(data) {
   }
 }
 
-function getAllOrders(adminId, token) {
-  return async (dispatch) => {
+function statisticsOrder(data) {
+  return {
+    type: STATISTICS_ORDER,
+    payload: data
+  }
+}
+
+function orderServiceStart() {
+  return {
+    type: ORDER_SERVICE_START
+  }
+}
+
+function orderServiceEnd() {
+  return {
+    type: ORDER_SERVICE_END
+  }
+}
+
+function getAllOrders(adminId, token, params) {
+  return async dispatch => {
     try {
       dispatch(loadOrders())
-      const res = await orderService.all(adminId, token)
+      const res = await orderService.all(adminId, token, params)
       const data = res.data.data
+
+      dispatch(statistics(adminId, token))
       return dispatch(receiveOrders(data))
     } catch (err) {
       if (err.response === undefined) {
@@ -40,6 +64,38 @@ function getAllOrders(adminId, token) {
   }
 }
 
+function statistics(adminId, token) {
+  return async dispatch => {
+    try {
+      const res = await orderService.statistics(adminId, token)
+      const data = res.data.data
+      return dispatch(statisticsOrder(data))
+    } catch (err) {
+      if (err.response === undefined) {
+        const errorMessage = '服务器错误，请稍后再试'
+        return dispatch(authError(errorMessage))
+      }
+    }
+  }
+}
+
+function updateOrderStatus(adminId, token, orderId, status) {
+  return async dispatch => {
+    try {
+      dispatch(orderServiceStart())
+      const res = await orderService.update(adminId, token, orderId, status)
+      return dispatch(orderServiceEnd())
+    } catch (err) {
+      if (err.response === undefined) {
+        const errorMessage = '服务器错误，请稍后再试'
+        return dispatch(authError(errorMessage))
+      }
+    }
+  }
+}
+
 export {
-  getAllOrders
+  getAllOrders,
+  statistics,
+  updateOrderStatus
 }
