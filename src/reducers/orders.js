@@ -1,11 +1,18 @@
 import {
   LOAD_ORDERS,
-  RECEIVE_ORDERS
+  RECEIVE_ORDERS,
+  STATISTICS_ORDER,
 } from '../actions/types';
 
 const initialState = {
   isFetchingOrders: false,
-  orders: []
+  orders: [],
+  success: 0,
+  successToday: 0,
+  wait: 0,
+  waitToday: 0,
+  dispatching: 0,
+  refunding: 0,
 }
 
 export default (state = initialState, action = {}) => {
@@ -19,6 +26,16 @@ export default (state = initialState, action = {}) => {
       return Object.assign({}, state, {
         isFetchingOrders: false,
         orders: action.payload
+      })
+    }
+    case STATISTICS_ORDER: {
+      return Object.assign({}, state, {
+        success: action.payload.success,
+        successToday: action.payload.successToday,
+        wait: action.payload.wait,
+        waitToday: action.payload.waitToday,
+        dispatching: action.payload.dispatching,
+        refunding: action.payload.refunding
       })
     }
     default:
