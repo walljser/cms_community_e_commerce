@@ -16,6 +16,7 @@ import {
 import { dateFormat } from '@/utils/index';
 import SelectorHeader from './SelectorHeader';
 import StatusFilter from './StatusFilter';
+import DetailItem from './DetailItem';
 
 @connect(
   state => ({
@@ -25,8 +26,8 @@ import StatusFilter from './StatusFilter';
     isFetching: state.orders.isFetchingOrders
   }),
   dispatch => ({
-    loadOrders: (adminId, token) => {
-      dispatch(getAllOrders(adminId, token))
+    loadOrders: (adminId, token, params) => {
+      dispatch(getAllOrders(adminId, token, params))
     }
   })
 )
@@ -48,14 +49,13 @@ export default class Orders extends React.Component {
     this.loadOrders()
   }
 
-  loadOrders = async () => {
+  loadOrders = async (params) => {
     const {
       adminId,
-      token,
-      loadOrders
+      token
     } = this.props
 
-    await loadOrders(adminId, token)
+    await this.props.loadOrders(adminId, token, params)
   }
 
   handleTableChange = (pagination, filters, sorter) => {
@@ -66,7 +66,46 @@ export default class Orders extends React.Component {
   }
 
   onSelectorChange = (value) => {
+    const status = typeof value.status !== 'undefined' && value.status !== 'all' ? value.status : null
+    const start = value.createTime ? value.createTime[0].format('YYYY-MM-DD') : null
+    const end = value.createTime ? value.createTime[1].format('YYYY-MM-DD') : null
+    const userName = value.userName && value.userName !== '' ? value.userName : null
+    const orderId = value.orderId ? parseInt(value.orderId) : null
 
+    const params = {
+      status,
+      start,
+      end,
+      userName,
+      orderId
+    }
+
+    this.loadOrders(params)
+  }
+
+  renderExpanded = (record) => {
+    const address = record.address.city + record.address.address + record.address.streetNumber
+    const addressContent = address + `   ${record.address.consignee}   ${record.address.phone}`
+    return (
+      <div>
+        <p>
+          用户收货地址： {addressContent}
+        </p>
+        <h4>商品：</h4>
+        {
+          record.orderDetails.length > 0 ? (
+            record.orderDetails.map((item) => {
+              return (
+                <DetailItem
+                  key={item.goodId}
+                  detail={item}
+                />
+              )
+            })
+          ) : null
+        }
+      </div>
+    )
   }
 
   render() {
@@ -83,8 +122,6 @@ export default class Orders extends React.Component {
     filteredInfo = filteredInfo || {}
     sortedInfo = sortedInfo || {}
 
-    console.log(orders)
-
     const columns =[{
       title: 'id',
       dataIndex: 'orderId',
@@ -95,10 +132,6 @@ export default class Orders extends React.Component {
       title: '用户id',
       dataIndex: 'userId',
       key: 'userId'
-    }, {
-      title: '地址id',
-      dataIndex: 'addressId',
-      key: 'addressId'
     }, {
       title: '总价',
       dataIndex: 'amount',
@@ -118,7 +151,9 @@ export default class Orders extends React.Component {
         { text: '未发货', value: '0' },
         { text: '配送中', value: '1' },
         { text: '已完成', value: '2' },
-        { text: '退款中', value: '-1' },
+        { text: '退款中', value: '3' },
+        { text: '退款成功', value: '-1'},
+        { text: '退款失败', value: '-2'},
       ],
       filteredValue: filteredInfo.status || null,
       onFilter: (value, recored) => {
@@ -137,6 +172,10 @@ export default class Orders extends React.Component {
         )
       }
       // key: 'createTime',
+    }, {
+      title: '备注',
+      dataIndex: 'remarks',
+      key: 'remarks'
     }]
 
     return (
@@ -149,6 +188,7 @@ export default class Orders extends React.Component {
             <Table
               rowKey={record => record.orderId}
               dataSource={orders}
+              expandedRowRender={this.renderExpanded}
               columns={columns}
               loading={isFetching}
               bordered

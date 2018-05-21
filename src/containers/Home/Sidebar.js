@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   Layout,
   Icon,
+  Badge,
   Menu
 } from 'antd'
 import SidebarLogo from '@/components/SidebarLogo';
@@ -16,6 +18,13 @@ const {
   SubMenu
 } = Menu
 
+@connect(
+  state => ({
+    wait: state.orders.wait,
+    dispatching: state.orders.dispatching,
+    refunding: state.orders.refunding
+  })
+)
 export default class Sidebar extends React.Component {
   static propTypes = {
     collapsed: PropTypes.bool.isRequired,
@@ -36,6 +45,9 @@ export default class Sidebar extends React.Component {
   render() {
     const {
       permission,
+      wait,
+      dispatching,
+      refunding,
       collapsed
     } = this.props
 
@@ -89,14 +101,18 @@ export default class Sidebar extends React.Component {
               </Link>
             </Item>
             <Item key="6">
-              <Link to="/orders">
-                <span>发货处理</span>
-              </Link>
+              <Badge count={wait + dispatching}>
+                <Link to="/order/dispatch">
+                  <span>订单配送&nbsp;&nbsp;</span>
+                </Link>
+              </Badge>
             </Item>
             <Item key="7">
-              <Link to="/orders">
-                <span>退款处理</span>
-              </Link>
+              <Badge count={refunding}>
+                <Link to="/order/refund">
+                  <span>退款处理&nbsp;&nbsp;</span>
+                </Link>
+              </Badge>
             </Item>
           </SubMenu>
           <Item key="8">

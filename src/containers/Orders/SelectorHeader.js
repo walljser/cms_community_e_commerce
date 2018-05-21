@@ -12,6 +12,7 @@ import {
   Divider,
   Input
 } from 'antd';
+import { ORDER_WAIT, ORDER_DISPATCHING, ORDER_FINISH, ORDER_REFUNDING } from '../../constants';
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -26,8 +27,6 @@ export default class SelectorHeader extends React.Component {
     e.preventDefault()
 
     this.props.form.validateFields((err, values) => {
-      console.log(values)
-
       if (err) {
         return ;
       }
@@ -75,15 +74,16 @@ export default class SelectorHeader extends React.Component {
         <Breadcrumb>
           <Breadcrumb.Item>主页</Breadcrumb.Item>
           <Breadcrumb.Item>订单管理</Breadcrumb.Item>
+          <Breadcrumb.Item>订单查询</Breadcrumb.Item>
         </Breadcrumb>
-        <h2>订单管理</h2>
-        <p>商品分类展示，可以进行新增商品分类，修改商品分类，删除商品分类操作</p>
+        <h2>订单查询</h2>
+        <p>展示全部订单信息，组合查询订单信息</p>
         <Divider style={{marginTop: '10px', marginBottom: '30px'}} />
         <Form className="form-search" onSubmit={this.handleSubmit}>
           <Row gutter={24}>
             <Col span={4}>
               <FormItem label="id">
-                {getFieldDecorator('goodId')(
+                {getFieldDecorator('orderId')(
                   <Input type="number" />
                 )}
               </FormItem>
@@ -109,7 +109,7 @@ export default class SelectorHeader extends React.Component {
                 )}
               </FormItem>
             </Col>
-            <Col span={3}>
+            <Col span={4}>
               <FormItem label="订单状态:">
                 {getFieldDecorator('status', {
                   initialValue: 'all'
@@ -118,15 +118,15 @@ export default class SelectorHeader extends React.Component {
                     onChange={this.handleStatusChange}
                   >
                     <Option value="all">全部</Option>
-                    <Option value="0">待发货</Option>
-                    <Option value="1">配送中</Option>
-                    <Option value="2">已完成</Option>
-                    <Option value="-1">退款中</Option>
+                    <Option value={ORDER_WAIT}>待发货</Option>
+                    <Option value={ORDER_DISPATCHING}>配送中</Option>
+                    <Option value={ORDER_FINISH}>已完成</Option>
+                    <Option value={ORDER_REFUNDING}>退款中</Option>
                   </Select>
                 )}
               </FormItem>
             </Col>
-            <Col span={5} style={{textAlign: 'right'}}>
+            <Col span={4} style={{textAlign: 'right'}}>
               <Button
                 type="primary"
                 htmlType="submit"

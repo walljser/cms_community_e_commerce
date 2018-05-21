@@ -16,6 +16,8 @@ import Dashboard from '../Dashboard/index';
 import Advs from '../Advs/index';
 import CategorySecond from '../CategorySecond/index';
 import Administrators from '../Administrators/index';
+import OrderRefund from '../OrderRefund/index';
+import OrderDispatch from '../OrderDispatch/index';
 
 export default class Home extends React.Component {
   state = {
@@ -47,6 +49,8 @@ export default class Home extends React.Component {
             <Route path="/category/first" component={CategoryFirst} />
             <Route path="/category/second" component={CategorySecond} />
             <Route path="/orders" component={Orders} />
+            <Route path="/order/refund" component={OrderRefund} />
+            <Route path="/order/dispatch" component={OrderDispatch} />
             <Route path="/advertisments" component={Advs} />
             {/* <Route paht="/admins" component={Administrators} /> */}
           </Layout>

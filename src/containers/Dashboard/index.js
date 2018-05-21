@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   Layout,
   Tabs,
@@ -12,9 +13,46 @@ import MetaBox from '@/components/MetaBox';
 import Panel from '@/components/Panel';
 import OrderCharts from './OrderCharts';
 import ConversionCharts from './ConversionCharts';
+import {
+  statisticsOrder
+} from '../../actions';
 
+@connect(
+  state => ({
+    success: state.orders.success,
+    successToday: state.orders.successToday,
+    wait: state.orders.wait,
+    waitToday: state.orders.waitToday,
+    adminId: state.auth.admin.adminId,
+    token: state.auth.admin.token
+  }),
+  dispatch => ({
+    fetchOrderStatus: (adminId, token) => dispatch(statisticsOrder(adminId, token))
+  })
+)
 export default class Dashboard extends React.Component {
+  componentDidMount() {
+    this.fetchOrderStatus()
+  }
+
+  fetchOrderStatus = async () => {
+    const {
+      adminId,
+      token
+    } = this.props
+
+    await this.props.fetchOrderStatus(adminId, token)
+  }
+
   render() {
+    const {
+      wait,
+      waitToday,
+      success,
+      successToday
+    } = this.props
+    console.log(this.props)
+
     return (
       <Layout.Content style={{backgroundColor: '#f0f2f5'}}>
          <Row gutter={16}>
@@ -30,8 +68,8 @@ export default class Dashboard extends React.Component {
           <Col className="gutter-row" span={6}>
             <MetaBox
               title="待发货"
-              info={10}
-              desc="今日新增： 27"
+              info={wait}
+              desc={"今日新增： " + waitToday}
             >
             </MetaBox>
           </Col>
@@ -46,8 +84,8 @@ export default class Dashboard extends React.Component {
           <Col className="gutter-row" span={6}>
             <MetaBox
               title="成交笔数"
-              info={320}
-              desc="今日新增： 20"
+              info={success}
+              desc={"今日新增： " + successToday}
             >
             </MetaBox>
           </Col>

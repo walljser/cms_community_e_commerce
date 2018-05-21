@@ -11,22 +11,32 @@ import {
   Form
 } from 'antd';
 import {
-  getAllOrders
+  getAllOrders,
+  updateOrderStatus
 } from '@/actions/index';
 import { dateFormat } from '@/utils/index';
 import SelectorHeader from './SelectorHeader';
 import StatusFilter from './StatusFilter';
+import DetailItem from './DetailItem';
+import orderService from '../../services/orderService';
+import {
+  ORDER_REFUNDING, ORDER_REFUND_SUCCESS, ORDER_REFUNDING_FAILURE
+} from '../../constants';
 
 @connect(
   state => ({
     adminId: state.auth.admin.adminId,
     token: state.auth.admin.token,
     orders: state.orders.orders,
+    inService: state.orders.inService,
     isFetching: state.orders.isFetchingOrders
   }),
   dispatch => ({
-    loadOrders: (adminId, token) => {
-      dispatch(getAllOrders(adminId, token))
+    loadOrders: (adminId, token, params) => {
+      dispatch(getAllOrders(adminId, token, params))
+    },
+    updateOrderStatus: (adminId, token, orderId, status) => {
+      dispatch(updateOrderStatus(adminId, token, orderId, status))
     }
   })
 )
@@ -45,17 +55,16 @@ export default class Orders extends React.Component {
   }
 
   componentDidMount() {
+    const status = 0
+
     this.loadOrders()
   }
 
-  loadOrders = async () => {
-    const {
-      adminId,
-      token,
-      loadOrders
-    } = this.props
+  loadOrders = (params = {}) => {
+    const status = ORDER_REFUNDING
+    const paramsData = Object.assign({}, { status }, params)
 
-    await loadOrders(adminId, token)
+    this.props.loadOrders(this.props.adminId, this.props.token, paramsData)
   }
 
   handleTableChange = (pagination, filters, sorter) => {
@@ -65,8 +74,67 @@ export default class Orders extends React.Component {
     })
   }
 
-  onSelectorChange = (value) => {
+  handleConfirmRefund = async (orderId) => {
+    const {
+      adminId,
+      token
+    } = this.props
 
+    const res = await orderService.update(adminId, token, orderId, ORDER_REFUND_SUCCESS)
+
+    this.loadOrders()
+  }
+
+  handleRefuse = async (orderId) => {
+    const {
+      adminId,
+      token
+    } = this.props
+
+    const res = await orderService.update(adminId, token, orderId, ORDER_REFUNDING_FAILURE)
+
+    this.loadOrders()
+  }
+
+  onSelectorChange = (value) => {
+    const start = value.createTime ? value.createTime[0].format('YYYY-MM-DD') : null
+    const end = value.createTime ? value.createTime[1].format('YYYY-MM-DD') : null
+    const userName = value.userName && value.userName !== '' ? value.userName : null
+    const orderId = value.orderId ? parseInt(value.orderId) : null
+
+    const params = {
+      start,
+      end,
+      userName,
+      orderId
+    }
+
+    this.loadOrders(params)
+  }
+
+  renderExpanded = (record) => {
+    const address = record.address.city + record.address.address + record.address.streetNumber
+    const addressContent = address + `   ${record.address.consignee}   ${record.address.phone}`
+    return (
+      <div>
+        <p>
+          用户收货地址： {addressContent}
+        </p>
+        <h4>商品：</h4>
+        {
+          record.orderDetails.length > 0 ? (
+            record.orderDetails.map((item) => {
+              return (
+                <DetailItem
+                  key={item.goodId}
+                  detail={item}
+                />
+              )
+            })
+          ) : null
+        }
+      </div>
+    )
   }
 
   render() {
@@ -94,10 +162,6 @@ export default class Orders extends React.Component {
       dataIndex: 'userId',
       key: 'userId'
     }, {
-      title: '地址id',
-      dataIndex: 'addressId',
-      key: 'addressId'
-    }, {
       title: '总价',
       dataIndex: 'amount',
       key: 'amount'
@@ -114,9 +178,7 @@ export default class Orders extends React.Component {
       },
       filters: [
         { text: '未发货', value: '0' },
-        { text: '配送中', value: '1' },
-        { text: '已完成', value: '2' },
-        { text: '退款中', value: '-1' },
+        { text: '配送中', value: '1' }
       ],
       filteredValue: filteredInfo.status || null,
       onFilter: (value, recored) => {
@@ -136,15 +198,31 @@ export default class Orders extends React.Component {
       }
       // key: 'createTime',
     }, {
+      title: '备注',
+      dataIndex: 'remarks',
+      key: 'remarks'
+    }, {
       title: '操作',
       key: 'action',
-      render: (text, record) => (
-        <span>
-          <Button type="primary">
-            操作
-          </Button>
-        </span>
-      )
+      render: (text, record) => {
+        return (
+          <span>
+            <Button
+              type="primary"
+              onClick={() => this.handleConfirmRefund(record.orderId)}
+            >
+              同意
+            </Button>
+            <Divider type="vertical" />
+            <Button
+              type="danger"
+              onClick={() => this.handleRefuse(record.orderId)}
+            >
+              拒绝
+            </Button>
+          </span>
+        )
+      }
     }]
 
     return (
@@ -157,6 +235,7 @@ export default class Orders extends React.Component {
             <Table
               rowKey={record => record.orderId}
               dataSource={orders}
+              expandedRowRender={this.renderExpanded}
               columns={columns}
               loading={isFetching}
               bordered

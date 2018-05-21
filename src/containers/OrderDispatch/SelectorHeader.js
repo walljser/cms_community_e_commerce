@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Panel from '@/components/Panel';
 import {
@@ -10,24 +11,35 @@ import {
   Select,
   DatePicker,
   Divider,
+  Radio,
+  Badge,
   Input
 } from 'antd';
+import { ORDER_WAIT, ORDER_DISPATCHING, ORDER_FINISH, ORDER_REFUNDING } from '../../constants';
 
 const FormItem = Form.Item
 const Option = Select.Option
+const RadioGroup = Radio.Group
+const RadioButton = Radio.Button
 
+@connect(
+  state => ({
+    wait: state.orders.wait,
+    dispatching: state.orders.dispatching
+  })
+)
 @Form.create()
 export default class SelectorHeader extends React.Component {
   static propTypes = {
-    handleSelectorChange: PropTypes.func.isRequired
+    handleSelectorChange: PropTypes.func.isRequired,
+    handleStatusChange: PropTypes.func.isRequired,
+    status: PropTypes.number.isRequired
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
 
     this.props.form.validateFields((err, values) => {
-      console.log(values)
-
       if (err) {
         return ;
       }
@@ -36,20 +48,15 @@ export default class SelectorHeader extends React.Component {
         values.categoryId = null
       }
 
-      if (values.status === 'all') {
-        values.status = null
-      }
-
       this.props.handleSelectorChange(values)
     })
   }
 
   handleReset = () => {
     this.props.form.setFieldsValue({
-      goodId: undefined,
-      goodName: '',
-      categoryId: 'all',
-      status: 'all'
+      orderId: undefined,
+      userName: '',
+      createTime: undefined
     })
   }
 
@@ -57,15 +64,16 @@ export default class SelectorHeader extends React.Component {
     console.log(date, dateString);
   }
 
-  handleStatusChange = (value) => {
-    this.props.form.setFieldsValue({
-      status: value
-    })
+  handleStatusChange = (e) => {
+    this.props.handleStatusChange(e.target.value)
   }
 
   render() {
     const {
-      form
+      form,
+      status,
+      dispatching,
+      wait
     } = this.props
 
     const { getFieldDecorator } = form
@@ -75,15 +83,27 @@ export default class SelectorHeader extends React.Component {
         <Breadcrumb>
           <Breadcrumb.Item>主页</Breadcrumb.Item>
           <Breadcrumb.Item>订单管理</Breadcrumb.Item>
+          <Breadcrumb.Item>订单配送</Breadcrumb.Item>
         </Breadcrumb>
-        <h2>订单管理</h2>
-        <p>商品分类展示，可以进行新增商品分类，修改商品分类，删除商品分类操作</p>
+        <h2>
+          订单配送
+
+          <RadioGroup onChange={this.handleStatusChange} defaultValue={status} style={{float: 'right'}}>
+            <Badge dot={wait > 0}>
+              <RadioButton value={ORDER_WAIT}>待发货</RadioButton>
+            </Badge>
+            <Badge dot={dispatching > 0}>
+              <RadioButton value={ORDER_DISPATCHING}>配送中</RadioButton>
+            </Badge>
+          </RadioGroup>
+        </h2>
+        <p>管理订单的配送，查看待发货和配送中订单，可以对订单进行发货处理和确认送达处理。</p>
         <Divider style={{marginTop: '10px', marginBottom: '30px'}} />
         <Form className="form-search" onSubmit={this.handleSubmit}>
           <Row gutter={24}>
             <Col span={4}>
               <FormItem label="id">
-                {getFieldDecorator('goodId')(
+                {getFieldDecorator('orderId')(
                   <Input type="number" />
                 )}
               </FormItem>
@@ -109,24 +129,7 @@ export default class SelectorHeader extends React.Component {
                 )}
               </FormItem>
             </Col>
-            <Col span={3}>
-              <FormItem label="订单状态:">
-                {getFieldDecorator('status', {
-                  initialValue: 'all'
-                })(
-                  <Select
-                    onChange={this.handleStatusChange}
-                  >
-                    <Option value="all">全部</Option>
-                    <Option value="0">待发货</Option>
-                    <Option value="1">配送中</Option>
-                    <Option value="2">已完成</Option>
-                    <Option value="-1">退款中</Option>
-                  </Select>
-                )}
-              </FormItem>
-            </Col>
-            <Col span={5} style={{textAlign: 'right'}}>
+            <Col span={8} style={{textAlign: 'right'}}>
               <Button
                 type="primary"
                 htmlType="submit"

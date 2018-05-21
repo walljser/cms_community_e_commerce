@@ -16,15 +16,19 @@ function StatusFilter(props) {
     content = '配送中'
   } else if (status === 2) {
     content = '已完成'
-  } else if (status === -1) {
+  } else if (status === 3) {
     content = '退款中'
+  } else if (status === -1) {
+    content = '退款成功'
+  } else {
+    content = '退款失败'
   }
 
   const classes = classNames(
     className,
     {
       [`${prefixCls}-success`]: status === 2,
-      [`${prefixCls}-error`]: status === -1,
+      [`${prefixCls}-error`]: status === 3,
       [`${prefixCls}-warning`]: status === 0,
       [`${prefixCls}`]: status === 1
     }
