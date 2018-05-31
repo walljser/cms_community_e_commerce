@@ -70,7 +70,6 @@ function fetchUsers(adminId, token) {
   }
 }
 
-
 export {
   serviceStart,
   serviceEnd,
@@ -89,3 +88,4 @@ export {
   updateOrderStatus,
   fetchAdminList
 }
+export { getAllAdvs } from './advAction.js';

@@ -9,6 +9,7 @@ import categories from './categories';
 import service from './service';
 import orders from './orders';
 import adminInfo from './adminInfo';
+import advs from './advs';
 
 export default combineReducers({
   auth,
@@ -18,5 +19,6 @@ export default combineReducers({
   service,
   orders,
   adminInfo,
+  advs,
   router: routerReducer
 });
