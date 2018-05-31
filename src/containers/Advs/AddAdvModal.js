@@ -102,7 +102,7 @@ export default class AddAdvModal extends React.Component {
           image
         }
       )
-      message.success('添加新分类成功')
+      message.success('添加新广告成功')
       this.props.fetchAdvs()
       this.props.handleSubmit()
     } catch (err) {

@@ -11,47 +11,16 @@ import {
   Form
 } from 'antd';
 import { fetchAdminList } from '@/actions/index';
-
-const admins = [
-  {
-    administratorId: 100,
-    userName: 'admin',
-    passWord: 'admin',
-    nickName: '超级管理员',
-    superLevel: true,
-    phone: 17704623923
-  },
-  {
-    administratorId: 101,
-    userName: 'jinyang',
-    passWord: 'jinyang333',
-    nickName: '金阳管理员',
-    superLevel: false,
-    phone: 17704623923
-  },
-  {
-    administratorId: 102,
-    userName: 'furong',
-    passWord: 'furaondj',
-    nickName: '福荣仓库管理员',
-    superLevel: false,
-    phone: 15729831723
-  },
-  {
-    administratorId: 103,
-    userName: 'jintong',
-    passWord: 'jintong66',
-    nickName: '金桐仓库管理员',
-    superLevel: false,
-    phone: 17432313728
-  }
-]
+import AddAdminModal from './AddAdminModal';
+import UpdateAdminModal from './UpdateAdminModal';
+import DeleteAdminModal from './DeleteAdminModal';
 
 @connect(
   state => ({
     adminId: state.auth.admin.adminId,
     token: state.auth.admin.token,
-    admins: state.adminInfo.admins
+    admins: state.adminInfo.admins,
+    isFetching: state.adminInfo.isFetching
   }),
   dispatch => ({
     fetchAdmins: (adminId, token) => dispatch(fetchAdminList(adminId, token))
@@ -60,7 +29,16 @@ const admins = [
 export default class Administrators extends React.Component {
   state = {
     filteredInfo: null,
-    sortedInfo: null
+    sortedInfo: null,
+    addModalVisible: false,
+    updateModalVisible: false,
+    updateValue: {},
+    deleteModalVisible: false,
+    deleteValue: {}
+  }
+
+  componentDidMount() {
+    this.fetchAdmins()
   }
 
   fetchAdmins = async () => {
@@ -80,7 +58,70 @@ export default class Administrators extends React.Component {
     })
   }
 
+  handleAddOpen = () => {
+    this.setState({
+      addModalVisible: true
+    })
+  }
+
+  handleUpdateOpen = (record) => {
+    this.setState({
+      updateModalVisible: true,
+      updateValue: record
+    })
+  }
+
+  handleDeleteOpen = async (record) => {
+    this.setState({
+      deleteModalVisible: true,
+      deleteValue: record
+    })
+
+    await this.fetchAdmins()
+  }
+
+  handleAddCancel = () => {
+    this.setState({
+      addModalVisible: false
+    })
+  }
+
+  handleUpdateCancel = () => {
+    this.setState({
+      updateModalVisible: false
+    })
+  }
+
+  handleDeleteCancel = () => {
+    this.setState({
+      deleteModalVisible: false
+    })
+  }
+
+  handleAddSuccess = () => {
+    this.setState({
+      addModalVisible: false
+    })
+  }
+
+  handleUpdateSuccess = () => {
+    this.setState({
+      updateModalVisible: false
+    })
+  }
+
+  handleDeleteSuccess = () => {
+    this.setState({
+      deleteModalVisible: false
+    })
+  }
+
   render() {
+    const {
+      admins,
+      isFetching
+    } = this.props
+
     let {
       filteredInfo,
       sortedInfo
@@ -112,15 +153,32 @@ export default class Administrators extends React.Component {
       dataIndex: 'phone',
       key: 'phone',
     }, {
+      title: '是否为超级管理员',
+      dataIndex: 'superLevel',
+      key: 'superLevel',
+      render: (text, record) => {
+        if (record.superLevel === true) {
+          return <span>是</span>
+        } else {
+          return <span>否</span>
+        }
+      }
+    }, {
       title: '操作',
       key: 'action',
       render: (text, record) => (
         <span>
-          <Button type="primary">
+          <Button
+            type="primary"
+            onClick={() => this.handleUpdateOpen(record)}
+          >
             修改
           </Button>
           <Divider type="vertical" />
-          <Button type="danger">
+          <Button
+            type="danger"
+            onClick={() => this.handleDeleteOpen(record)}
+          >
             删除
           </Button>
         </span>
@@ -140,7 +198,7 @@ export default class Administrators extends React.Component {
             <Divider style={{marginTop: '10px', marginBottom: '30px'}} />
             <Button
               type="primary"
-              onClick={this.handleAddFormOpen}
+              onClick={this.handleAddOpen}
             >
               新增管理员
             </Button>
@@ -152,8 +210,26 @@ export default class Administrators extends React.Component {
               columns={columns}
               bordered
               onChange={this.handleChange}
+              loading={isFetching}
             />
           </Panel.Body>
+          <AddAdminModal
+            visible={this.state.addModalVisible}
+            handleSubmit={this.handleAddSuccess}
+            handleCancel={this.handleAddCancel}
+          />
+          <UpdateAdminModal
+            visible={this.state.updateModalVisible}
+            value={this.state.updateValue}
+            handleSubmit={this.handleUpdateSuccess}
+            handleCancel={this.handleUpdateCancel}
+          />
+          <DeleteAdminModal
+            visible={this.state.deleteModalVisible}
+            value={this.state.deleteValue}
+            handleSubmit={this.handleDeleteSuccess}
+            handleCancel={this.handleDeleteCancel}
+          />
         </Panel>
       </Layout.Content>
     )

@@ -15,14 +15,20 @@ import Orders from '../Orders/index';
 import Dashboard from '../Dashboard/index';
 import Advs from '../Advs/index';
 import CategorySecond from '../CategorySecond/index';
-import Administrators from '../Administrators/index';
+import Administrators from '../Administrators';
 import OrderRefund from '../OrderRefund/index';
 import OrderDispatch from '../OrderDispatch/index';
 
+@connect(
+  state => ({
+    adminId: state.auth.admin.adminId,
+    token: state.auth.admin.token
+  })
+)
 export default class Home extends React.Component {
   state = {
     collapsed: false,
-    superLevel: false
+    superLevel: true
   }
 
   toggleCollapse = () => {
@@ -52,6 +58,7 @@ export default class Home extends React.Component {
             <Route path="/order/refund" component={OrderRefund} />
             <Route path="/order/dispatch" component={OrderDispatch} />
             <Route path="/advertisments" component={Advs} />
+            <Route path="/admins" component={Administrators} />
             {/* <Route paht="/admins" component={Administrators} /> */}
           </Layout>
         </Layout>

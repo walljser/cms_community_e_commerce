@@ -40,6 +40,7 @@ function signin(username, password) {
       const res = await authService.post(username, password)
 
       if (res.status === 201 && res.data.code === 100) {
+        console.log(res)
         const token = res.data.data.token
         const adminId = res.data.data.userId
 
