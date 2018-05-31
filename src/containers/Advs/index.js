@@ -137,7 +137,7 @@ export default class Adv extends React.Component {
       dataIndex: 'image',
       key: 'image',
       render: (text, record) => (
-        <img className="advs-table-img" alt=".." src={`http://yushijie.club/cloudimg/goods/${text}`} />
+        <img className="advs-table-img" alt=".." src={text} />
       )
     }, {
       title: '操作',
