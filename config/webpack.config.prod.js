@@ -223,13 +223,49 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.js$/, /\.html$/, /\.json$/],
+            exclude: [/\.js$/, /\.html$/, /\.json$/, /\.scss$/],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
             },
           },
           // ** STOP ** Are you adding a new loader?
           // Make sure to add the new loader(s) before the "file" loader.
+          {
+            test: /\.scss$/,
+            loaders: [
+              'style-loader',
+              'css-loader',
+              'sass-loader'
+            ]
+            // use: [
+            //   {
+            //     loader: 'style-loader'
+            //   },
+            //   {
+            //     loader: 'css-loader',
+            //     options: {
+            //       sourceMap: true,
+            //       modules: true,
+            //       localIdentName: '[local]_[hash:base64:5]'
+            //     }
+            //   },
+            //   {
+            //     loader: 'postcss-loader',
+            //     options: {
+            //       sourceMap: true,
+            //       config: {
+            //         path: 'postcss.config.js'
+            //       }
+            //     }
+            //   },
+            //   {
+            //     loader: 'sass-loader',
+            //     options: {
+            //       souceMap: true
+            //     }
+            //   }
+            // ]
+          },
         ],
       },
     ],
