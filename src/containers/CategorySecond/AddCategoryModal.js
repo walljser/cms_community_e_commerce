@@ -193,7 +193,7 @@ export default class AddCategoryModal extends React.Component {
                 }]
               })(
                 <Upload
-                  action="http://192.168.191.1:8080/api/v1/fileUpload"
+                  action="http://yushijie.club:8080/cloudcommodity/api/v1/fileUpload"
                   listType="picture-card"
                   fileList={fileList}
                   onRemove={this.handleRemove}

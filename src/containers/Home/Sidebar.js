@@ -20,6 +20,7 @@ const {
 
 @connect(
   state => ({
+    adminId: state.auth.admin.adminId,
     wait: state.orders.wait,
     dispatching: state.orders.dispatching,
     refunding: state.orders.refunding
@@ -44,6 +45,7 @@ export default class Sidebar extends React.Component {
 
   render() {
     const {
+      adminId,
       permission,
       wait,
       dispatching,
@@ -122,7 +124,7 @@ export default class Sidebar extends React.Component {
             </Link>
           </Item>
           {
-            permission ? (
+            adminId === 100 ? (
               <Item key="9">
                 <Link to="/admins">
                   <Icon type="solution" />

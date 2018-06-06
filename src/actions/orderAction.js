@@ -48,6 +48,7 @@ function getAllOrders(adminId, token, params) {
       dispatch(loadOrders())
       const res = await orderService.all(adminId, token, params)
       const data = res.data.data
+      console.log(data)
 
       dispatch(statistics(adminId, token))
       return dispatch(receiveOrders(data))

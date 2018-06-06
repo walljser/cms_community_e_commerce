@@ -11,6 +11,7 @@ import {
   authError
 } from '@/actions';
 import goodService from '@/services/goodService';
+import CategorySelector from '../../components/CategorySelector';
 
 const FormItem = Form.Item
 
@@ -97,6 +98,7 @@ export default class UpdateGoodModal extends React.Component {
     } = this.props
 
     const { getFieldDecorator } = form
+    console.log(this.props.updateForm)
     let updateForm = this.props.updateForm || {}
 
     return (
@@ -129,6 +131,17 @@ export default class UpdateGoodModal extends React.Component {
               }]
             })(
               <Input type="text" />
+            )}
+          </FormItem>
+          <FormItem label="商品类别：">
+            {getFieldDecorator('categorySecondId', {
+              initialValue: updateForm.categorySecondId || '',
+              rules: [{
+                required: true,
+                message: '请选择商品类别'
+              }]
+            })(
+              <CategorySelector />
             )}
           </FormItem>
           <FormItem label="现价:">

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Panel from '../../components/Panel';
 import UpdateUserModal from './UpdateUserModal';
+import UpdatePassWord from './UpdatePassWord';
 import {
   Table,
   Button,
@@ -33,7 +34,8 @@ export default class Users extends React.Component {
     filteredInfo: null,
     sortedInfo: null,
     updateFormVisible: false,
-    updateFormValue: {}
+    updateFormValue: {},
+    updatePasswordVisible: false
   }
 
   static propTypes = {
@@ -51,6 +53,19 @@ export default class Users extends React.Component {
     })
   }
 
+  handleAlterOpen = (value) => {
+    this.setState({
+      updatePasswordVisible: true,
+      updateFormValue: value
+    })
+  }
+
+  handleAlterSuccess = () => {
+    this.setState({
+      updatePasswordVisible: false
+    })
+  }
+
   handleUpdateSuccess = () => {
     this.setState({
       updateFormVisible: false
@@ -59,7 +74,8 @@ export default class Users extends React.Component {
 
   handleClose = () => {
     this.setState({
-      updateFormVisible: false
+      updateFormVisible: false,
+      updatePasswordVisible: false
     })
   }
 
@@ -103,6 +119,10 @@ export default class Users extends React.Component {
       dataIndex: 'userName',
       key: 'userName'
     }, {
+      title: '密码',
+      dataIndex: 'passWord',
+      key: 'passWord'
+    }, {
       title: '昵称',
       dataIndex: 'nickName',
       key: 'nickName'
@@ -129,7 +149,7 @@ export default class Users extends React.Component {
             修改信息
           </Button>
           <Divider type="vertical" />
-          <Button type="danger">
+          <Button type="danger" onClick={() => this.handleAlterOpen(record)}>
             修改密码
           </Button>
         </span>
@@ -161,6 +181,12 @@ export default class Users extends React.Component {
               ref={this.setUpdateFormRef}
               visible={this.state.updateFormVisible}
               handleSubmit={this.handleUpdateSuccess}
+              handleCancel={this.handleClose}
+            />
+            <UpdatePassWord
+              visible={this.state.updatePasswordVisible}
+              value={this.state.updateFormValue}
+              handleSubmit={this.handleAlterSuccess}
               handleCancel={this.handleClose}
             />
           </Panel.Body>

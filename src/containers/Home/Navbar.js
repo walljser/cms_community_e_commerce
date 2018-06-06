@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  Link
+} from 'react-router-dom';
+import {
   Layout,
   Icon,
   Menu,
@@ -14,14 +17,19 @@ export default class Navbar extends React.Component {
     handleClick: PropTypes.func.isRequired
   }
 
+  handleSignout = () => {
+    console.log(666)
+    console.log(this.props)
+    this.props.signout()
+  }
+
   renderOverlay() {
     return (
-      <Menu>
+      <Menu onClick={this.handleSignout}>
         <Menu.Item>
-          <a href="">修改密码</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a href="">退出</a>
+          {/* <Link to="/signin"> */}
+            退出
+          {/* </Link> */}
         </Menu.Item>
       </Menu>
     )

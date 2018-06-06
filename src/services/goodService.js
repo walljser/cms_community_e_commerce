@@ -7,7 +7,7 @@ import { postData } from '../utils/postData';
 
 const admin_good = `${ADMIN_API}/goods`
 const DEFAULT = {
-  categoryId: 100000,
+  categorySecondId: 100000,
   goodName: '',
   price: 0,
   originalPrice: 0,
@@ -24,7 +24,7 @@ const all = async (adminId, token, good, page = DEFAULT_PAGE, rows = 8) => {
       rows: rows,
       goodId: good.goodId,
       goodName: good.goodName,
-      categoryId: good.categoryId,
+      categorySecondId: good.categorySecondId,
       goodStatus: good.status
     })
   } else {

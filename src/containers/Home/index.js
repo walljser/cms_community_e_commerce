@@ -6,7 +6,7 @@ import {
 import {
   Layout
 } from 'antd';
-import Navbar from '@/components/Navbar';
+import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Users from '../Users/index';
 import Goods from '../Goods/index';
@@ -18,17 +18,27 @@ import CategorySecond from '../CategorySecond/index';
 import Administrators from '../Administrators';
 import OrderRefund from '../OrderRefund/index';
 import OrderDispatch from '../OrderDispatch/index';
+import {
+  signout
+} from '../../actions';
 
 @connect(
   state => ({
     adminId: state.auth.admin.adminId,
     token: state.auth.admin.token
+  }),
+  dispatch => ({
+    signout: () => dispatch(signout())
   })
 )
 export default class Home extends React.Component {
   state = {
     collapsed: false,
     superLevel: true
+  }
+
+  handleLogout = () => {
+    this.props.signout()
   }
 
   toggleCollapse = () => {
@@ -48,6 +58,7 @@ export default class Home extends React.Component {
             <Navbar
               collapsed={this.state.collapsed}
               handleClick={this.toggleCollapse}
+              signout={this.handleLogout}
             />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/users" component={Users} />

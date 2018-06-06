@@ -32,8 +32,8 @@ export default class SelectorHeader extends React.Component {
         return ;
       }
 
-      if (values.categoryId === 'all') {
-        values.categoryId = null
+      if (values.categorySecondId === 'all') {
+        values.categorySecondId = null
       }
 
       if (values.status === 'all') {
@@ -48,7 +48,7 @@ export default class SelectorHeader extends React.Component {
     this.props.form.setFieldsValue({
       goodId: undefined,
       goodName: '',
-      categoryId: 'all',
+      categorySecondId: 'all',
       status: 'all'
     })
   }
@@ -98,7 +98,7 @@ export default class SelectorHeader extends React.Component {
             </Col>
             <Col span={5}>
               <FormItem label="分类:">
-                {getFieldDecorator('categoryId', {
+                {getFieldDecorator('categorySecondId', {
                   initialValue: 'all'
                 })(
                   <CategorySelector

@@ -19,12 +19,18 @@ import {
 
 @connect(
   state => ({
-    success: state.orders.success,
-    successToday: state.orders.successToday,
-    wait: state.orders.wait,
-    waitToday: state.orders.waitToday,
-    adminId: state.auth.admin.adminId,
-    token: state.auth.admin.token
+    success: state.orders.success, // 成交订单
+    successToday: state.orders.successToday, // 今日成交
+    wait: state.orders.wait,  // 待发货
+    waitToday: state.orders.waitToday, // 今日新增待发货
+    totalSale: state.orders.totalSale, // 共销售
+    todaySale: state.orders.todaySale, // 今日销售额
+    userCount: state.orders.userCount, // 用户数量
+    refunding: state.orders.refunding, // 退款中
+    dispatching: state.orders.dispatching, // 配送中
+    collection: state.orders.collection, // 收藏数量
+    adminId: state.auth.admin.adminId, // 管理员id
+    token: state.auth.admin.token, // token
   }),
   dispatch => ({
     fetchOrderStatus: (adminId, token) => dispatch(statisticsOrder(adminId, token))
@@ -48,10 +54,15 @@ export default class Dashboard extends React.Component {
     const {
       wait,
       waitToday,
+      refunding,
+      dispatching,
       success,
-      successToday
+      successToday,
+      totalSale,
+      todaySale,
+      collection,
+      userCount
     } = this.props
-    console.log(this.props)
 
     return (
       <Layout.Content style={{backgroundColor: '#f0f2f5'}}>
@@ -60,8 +71,8 @@ export default class Dashboard extends React.Component {
             <MetaBox
               title="总销售额"
               icon={<Icon type="info-circle-o" />}
-              info={'￥ ' + toThousands(36232.632)}
-              desc="每日销售额： ￥ 1,682"
+              info={'￥ ' + toThousands(totalSale)}
+              desc={"今日销售额： ￥ " + toThousands(todaySale)}
             >
             </MetaBox>
           </Col>
@@ -76,8 +87,8 @@ export default class Dashboard extends React.Component {
           <Col className="gutter-row" span={6}>
             <MetaBox
               title="购物车收藏数"
-              info={toThousands(4920)}
-              desc="今日新增： 83"
+              info={toThousands(collection)}
+              desc={"用户数量： " + userCount}
             >
             </MetaBox>
           </Col>
@@ -104,10 +115,15 @@ export default class Dashboard extends React.Component {
         </Panel> */}
         <Row gutter={24} style={{marginTop: '30px'}}>
           <Col span={12} style={{bakcground: '#fff'}}>
-            <OrderCharts />
+            <OrderCharts
+              wait={wait}
+              success={success}
+              refunding={refunding}
+              dispatching={dispatching}
+            />
           </Col>
           <Col span={12}>
-            <ConversionCharts />
+            <ConversionCharts collection={collection} success={success} />
           </Col>
         </Row>
       </Layout.Content>

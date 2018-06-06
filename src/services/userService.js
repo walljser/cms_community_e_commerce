@@ -24,13 +24,17 @@ const get = async (adminId, token, userId) => {
 }
 
 const update = async (adminId, token, user) => {
-  return await rest.patch(adminId, token)(
+  const updateDate = {}
+  updateDate.userId = user.userId
+  if (user.nickName) {
+    updateDate.nickName = user.nickName
+  }
+  if (user.userName) {
+    updateDate.passWord = user.passWord
+  }
+  return await rest.post(adminId, token)(
     `${user_url}/${user.userId}`,
-    {
-      userId: user.userId,
-      userName: user.userName,
-      nickName: user.nickName
-    }
+    updateDate
   )
 }
 
