@@ -10,11 +10,14 @@ React后台项目：react + react-router4 + redux + antd + axios + sass
 ![用户页面](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/users.png)
 * 商品管理
 ![商品](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/goods.png)
-![登录页](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/categories.png)
-![登录页](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/order_query.png)
-![登录页](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/signin_page.png)
-![登录页](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/signin_page.png)
-![登录页](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/signin_page.png)
+* 商品二级分类
+![商品二级分类](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/categories.png)
+* 订单查询
+![订单查询](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/order_query.png)
+* 订单派送管理
+![订单派送管理](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/order_dispatch.png)
+* 广告信息管理
+![广告管理](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/advs.png)
 ### 技术栈
 1. react 16.2.0
 2. react-router-dom 4.2.2 (react-router 4)
