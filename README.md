@@ -1,7 +1,7 @@
 ## 云生活超市管理系统（完整的后台管理系统）
 React后台项目：react + react-router4 + redux + antd + axios + sass
 ##### (项目迭代滚动中，如果有喜欢这个的小哥哥小姐姐，送我一个start，谢谢！如果您有什么建议修改之类的，请疯狂的pull request or create issue.)
-##### 先放一些图片哈。。。
+##### 先放一些图片哈
 * 登录页
 ![登录页](https://raw.githubusercontent.com/walljs/cms_community_e_commerce/master/src/assets/images/signin_page.png)
 * 主页
