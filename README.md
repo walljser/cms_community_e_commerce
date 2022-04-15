@@ -28,7 +28,7 @@ React后台项目：react + react-router4 + redux + antd + axios + sass
 
 使用了create-react-app搭建项目。 服务器端我是用springboot+mybatis编写的，仓库地址是：[服务器端代码](https://github.com/dekvos123/backend_cloud_commodity)
 
-作者想说：其实是想用React-native做一个超市的app，取名云生活超市（名字很难听各位轻吐槽），既然有app，那就得有一个后台，就是这个了。附上app端仓库地址：[云生活app](https://github.com/dekvos123/community_e_commerce)
+附上app端仓库地址：[云生活app](https://github.com/dekvos123/community_e_commerce)
 
 ### 环境
 * 我自己使用ubuntu16.04，建议在linux或者mac os系统下运行
